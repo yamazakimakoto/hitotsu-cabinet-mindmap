@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ひとつの党 仮想内閣 閣僚思想マインドマップ</title>
+<meta name="description" content="ひとつの党（AI仮想内閣）閣僚45名の思想・政策キーワードを放射状マインドマップで可視化。政策提言のための思考実験プロジェクトです。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ひとつの党 仮想内閣 閣僚思想マインドマップ">
+<meta property="og:description" content="閣僚45名（大臣17名＋副大臣28名）の思想・政策キーワードを放射状マインドマップで可視化。政策提言のための思考実験プロジェクトです。">
+<meta property="og:url" content="https://yamazakimakoto.github.io/hitotsu-cabinet-mindmap/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ひとつの党 仮想内閣 閣僚思想マインドマップ">
+<meta name="twitter:description" content="閣僚45名の思想・政策キーワードを放射状マインドマップで可視化。政策提言のための思考実験プロジェクトです。">
+<style>
+:root {
+  --deep-green: #2d6b3f;
+  --bright-green: #379a4d;
+  --yellow: #ffd232;
+  --gold-deep: #b8860b;
+  --bg: #f4f8f1;
+  --card-bg: #ffffff;
+  --text: #22332a;
+  --text-dim: #5f7268;
+  --border: #d7e3d5;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+header {
+  background: linear-gradient(135deg, var(--deep-green), #1a4028);
+  padding: 40px 20px;
+  text-align: center;
+  border-bottom: 3px solid var(--yellow);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+header h1 {
+  font-size: 28px;
+  color: var(--yellow);
+  margin-bottom: 8px;
+}
+
+header p {
+  color: #cfe0d3;
+  font-size: 14px;
+}
+
+nav {
+  background: #ffffff;
+  padding: 12px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 105px;
+  z-index: 99;
+}
+
+nav a {
+  color: var(--bright-green);
+  text-decoration: none;
+  font-size: 13px;
+  padding: 4px 12px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  transition: all 0.3s;
+}
+
+nav a:hover {
+  background: var(--deep-green);
+  color: var(--yellow);
+}
+
+.ministry-section {
+  padding: 40px 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.ministry-title {
+  font-size: 22px;
+  color: var(--deep-green);
+  border-left: 4px solid var(--yellow);
+  padding-left: 16px;
+  margin-bottom: 30px;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  gap: 30px;
+  margin-bottom: 60px;
+}
+
+.mindmap-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 16px rgba(45,107,63,0.08);
+  overflow: hidden;
+}
+
+.mindmap-card .role-badge {
+  display: inline-block;
+  font-size: 11px;
+  padding: 2px 10px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+
+.role-minister .role-badge {
+  background: var(--yellow);
+  color: #1a1a1a;
+  font-weight: bold;
+}
+
+.role-vice .role-badge {
+  background: var(--bright-green);
+  color: #1a1a1a;
+}
+
+svg.mindmap {
+  width: 100%;
+  height: 380px;
+  display: block;
+}
+
+.keyword-bar {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.keyword-tag {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 8px;
+  background: rgba(77,185,99,0.15);
+  color: var(--bright-green);
+  border: 1px solid rgba(77,185,99,0.3);
+}
+
+/* SVG styles */
+.node-center circle {
+  filter: drop-shadow(0 0 8px rgba(255,210,50,0.3));
+}
+
+.node-center text {
+  font-size: 13px;
+  font-weight: bold;
+  fill: #fff;
+}
+
+.node-pillar circle {
+  transition: r 0.3s, filter 0.3s;
+  cursor: pointer;
+}
+
+.node-pillar:hover circle {
+  r: 30;
+  filter: drop-shadow(0 0 10px rgba(77,185,99,0.5));
+}
+
+.node-pillar text {
+  font-size: 10px;
+  fill: var(--text);
+  pointer-events: none;
+}
+
+.node-leaf rect {
+  transition: opacity 0.3s, filter 0.3s;
+  cursor: pointer;
+  rx: 6;
+  ry: 6;
+}
+
+.node-leaf:hover rect {
+  filter: drop-shadow(0 0 6px rgba(255,210,50,0.4));
+}
+
+.node-leaf text {
+  font-size: 9px;
+  fill: var(--text);
+  pointer-events: none;
+}
+
+.branch {
+  stroke-width: 2;
+  fill: none;
+  opacity: 0.6;
+}
+
+.branch-main {
+  stroke: var(--bright-green);
+  stroke-width: 2.5;
+}
+
+.branch-sub {
+  stroke: var(--deep-green);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 2;
+}
+
+/* Tooltip */
+.tooltip {
+  position: fixed;
+  background: #ffffff;
+  border: 1px solid var(--bright-green);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 12px;
+  color: var(--text);
+  max-width: 250px;
+  pointer-events: none;
+  z-index: 1000;
+  display: none;
+  box-shadow: 0 6px 24px rgba(45,107,63,0.18);
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.mindmap-card {
+  animation: fadeInUp 0.5s ease-out both;
+}
+
+.ministry-section:nth-child(odd) .mindmap-card { animation-delay: 0.1s; }
+.ministry-section:nth-child(even) .mindmap-card { animation-delay: 0.2s; }
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+.branch { animation: pulse 3s ease-in-out infinite; }
+
+footer {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-dim);
+  font-size: 12px;
+  border-top: 1px solid var(--border);
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>ひとつの党 仮想内閣 閣僚思想マインドマップ</h1>
+  <p>官邸＋14省庁 ／ 大臣17名 ＋ 副大臣28名 ＝ 閣僚45名の思想体系</p>
+</header>
+
+<nav>
+  <a href="#kantei">官邸</a>
+  <a href="#zaimu">財務省</a>
+  <a href="#keisan">経産省</a>
+  <a href="#kourou">厚労省</a>
+  <a href="#shoushika">少子化担当</a>
+  <a href="#monka">文科省</a>
+  <a href="#kankyou">環境省</a>
+  <a href="#nousui">農水省</a>
+  <a href="#kokkou">国交省</a>
+  <a href="#digital">デジタル庁</a>
+  <a href="#saigai">災害担当</a>
+  <a href="#gaimu">外務省</a>
+  <a href="#bouei">防衛省</a>
+  <a href="#keizaisaisei">経済再生</a>
+  <a href="#soumu">総務省</a>
+</nav>
+
+<div class="tooltip" id="tooltip"></div>
+
+<!-- ==================== 官邸 ==================== -->
+<section class="ministry-section" id="kantei">
+  <h2 class="ministry-title">官邸</h2>
+  <div class="cards-grid"></div>
+</section>
+
+<!-- ==================== 財務省 ==================== -->
+<section class="ministry-section" id="zaimu">
+  <h2 class="ministry-title">財務省</h2>
+  <div class="cards-grid"></div>
+</section>
+
+<!-- ==================== 経産省 ==================== -->
+<section class="ministry-section" id="keisan">
+  <h2 class="ministry-title">経産省</h2>
+  <div class="cards-grid"></div>
+</section>
+
+<!-- ==================== 厚労省 ==================== -->
+<section class="ministry-section" id="kourou">
+  <h2 class="ministry-title">厚労省</h2>
+  <div class="cards-grid"></div>
+</section>
+
+<!-- ==================== 少子化担当 ==================== -->
+<section class="ministry-section" id="shoushika">
+  <h2 class="ministry-title">少子化担当</h2>
+  <div class="cards-grid"></div>
+</section>
+
+<!-- ==================== 文科省 ==================== -->
+<section class="ministry-section" id="monka">
+  <h2 class="ministry-title">文科省</h2>
+  <div class="cards-grid"></div>
+</section>
+
+<!-- ==================== 環境省 ==================== -->
+<section class="ministry-section" id="kankyou">
+  <h2 class="ministry-title">環境省</h2>
+  <div class="cards-grid"></div>
+</section>
+
+<!-- ==================== 農水省 ==================== -->
+<section class="ministry-section" id="nousui">
+  <h2 class="ministry-title">農水省</h2>
+  <div class="cards-grid"></div>
+</section>
+
+<!-- ==================== 国交省 ==================== -->
+<section class="ministry-section" id="kokkou">
+  <h2 class="ministry-title">国交省</h2>
+  <div class="cards-grid"></div>
+</section>
+
+<!-- ==================== デジタル庁 ==================== -->
+<section class="ministry-section" id="digital">
+  <h2 class="ministry-title">デジタル庁</h2>
+  <div class="cards-grid"></div>
+</section>
+
+<!-- ==================== 災害担当 ==================== -->
+<section class="ministry-section" id="saigai">
+  <h2 class="ministry-title">災害担当</h2>
+  <div class="cards-grid"></div>
+</section>
+
+<!-- ==================== 外務省 ==================== -->
+<section class="ministry-section" id="gaimu">
+  <h2 class="ministry-title">外務省</h2>
+  <div class="cards-grid"></div>
+</section>
+
+<!-- ==================== 防衛省 ==================== -->
+<section class="ministry-section" id="bouei">
+  <h2 class="ministry-title">防衛省</h2>
+  <div class="cards-grid"></div>
+</section>
+
+<!-- ==================== 内閣府特命（経済再生）==================== -->
+<section class="ministry-section" id="keizaisaisei">
+  <h2 class="ministry-title">内閣府特命担当（経済再生）</h2>
+  <div class="cards-grid"></div>
+</section>
+
+<!-- ==================== 総務省 ==================== -->
+<section class="ministry-section" id="soumu">
+  <h2 class="ministry-title">総務省</h2>
+  <div class="cards-grid"></div>
+</section>
+
+<footer>
+  <p>ひとつの党 仮想内閣 閣僚思想マインドマップ &mdash; cabinet-knowledge-base.md セクション2より構造化</p>
+</footer>
+
+<script>
+// ============================================================
+// DATA: All 45 ministers structured
+// ============================================================
+const ministersData = {
+  kantei: [
+    {
+      name: "高橋誠志", age: 63, role: "総理大臣",
+      theme: "脱原発・提案型政治",
+      pillars: [
+        { label: "脱原発", proposals: ["原発新増設禁止", "2035年全基停止", "再エネ100%目標"] },
+        { label: "提案の政治", proposals: ["批判から提案へ", "現場主義の政策立案", "対話型民主主義"] },
+        { label: "地域分散", proposals: ["地域分散型エネルギー", "コミュニティ主導", "地方自治体への権限移譲"] },
+        { label: "現場主義", proposals: ["現地視察の制度化", "当事者の声を政策に", "EBPM徹底"] }
+      ],
+      keywords: ["批判から提案の政治", "地域分散型エネルギー", "現場主義"]
+    },
+    {
+      name: "北条千歳", age: 77, role: "副総理",
+      theme: "ジェンダー平等・ケアの社会化",
+      pillars: [
+        { label: "ケアの社会学", proposals: ["ケア労働の正当評価", "介護の社会化", "ケアワーカー処遇改善"] },
+        { label: "当事者主権", proposals: ["当事者の声を最優先", "弱者が弱者のまま尊重", "マイノリティ政策参画"] },
+        { label: "ジェンダー横串", proposals: ["全政策にジェンダー視点", "12分野のジェンダーチェック", "WPS決議反映"] },
+        { label: "フェミニズム", proposals: ["男性稼ぎ主モデル脱却", "選択的夫婦別姓", "同性婚法制化"] }
+      ],
+      keywords: ["弱者が弱者のまま尊重される社会", "当事者主権", "ケアの社会学"]
+    },
+    {
+      name: "藤原克明", age: 70, role: "官房長官",
+      theme: "霞が関改革・忖度の排除",
+      pillars: [
+        { label: "霞が関改革", proposals: ["忖度文化の解体", "官僚の独立性確保", "人事の透明化"] },
+        { label: "企業献金禁止", proposals: ["全面禁止", "政治資金の透明化", "ロビイング規制"] },
+        { label: "規制改革", proposals: ["規制による成長阻害排除", "サンセット条項導入", "B/C基準の徹底"] },
+        { label: "情報公開", proposals: ["政策決定過程の公開", "公文書管理の厳格化", "忖度なき行政"] }
+      ],
+      keywords: ["改革はするが戦争はしない", "忖度なき霞が関改革", "企業献金全面禁止"]
+    },
+    {
+      name: "石川理恵", age: 51, role: "副長官",
+      theme: "人権の番人",
+      pillars: [
+        { label: "デジタル人権", proposals: ["GPS捜査の規制", "デジタル監視への歯止め", "プライバシー保護強化"] },
+        { label: "公共訴訟", proposals: ["訴訟による制度変革", "弁護士アクセス拡大", "法テラスの拡充"] },
+        { label: "人権保障", proposals: ["人権の番人としての役割", "マイノリティの権利擁護", "入管制度改革"] }
+      ],
+      keywords: ["人権の番人", "GPS捜査違法判決", "デジタル監視への歯止め"]
+    },
+    {
+      name: "杉本恵介", age: 45, role: "副長官",
+      theme: "憲法の番人",
+      pillars: [
+        { label: "憲法適合性", proposals: ["全政策の憲法チェック", "立憲主義の徹底", "法の支配の貫徹"] },
+        { label: "同性婚", proposals: ["憲法的保護の論証", "婚姻の平等", "パートナーシップ制度"] },
+        { label: "地方自治", proposals: ["辺野古は住民投票必要", "地方自治体の権利", "住民の自己決定権"] },
+        { label: "子どもの権利", proposals: ["子どもの権利条約の国内法化", "体罰禁止の法制化", "子どもの意見表明権"] }
+      ],
+      keywords: ["憲法の番人", "同性婚の憲法的保護", "子どもの権利"]
+    }
+  ],
+
+  zaimu: [
+    {
+      name: "森山正彦", age: 79, role: "財務大臣",
+      theme: "分かち合いの財政",
+      pillars: [
+        { label: "北欧型財政", proposals: ["高福祉・高負担モデル", "普遍主義的社会保障", "積極的労働市場政策"] },
+        { label: "共同の負担", proposals: ["税は共同の負担", "応能負担原則", "消費税19%によるBS財源"] },
+        { label: "地方分権", proposals: ["税源の地方移譲", "地方財政の自立", "交付税制度改革"] },
+        { label: "分かち合い", proposals: ["分かち合いの経済学", "再分配の強化", "PB2030年黒字化"] }
+      ],
+      keywords: ["税は共同の負担", "北欧型財政", "分かち合いの経済学"]
+    },
+    {
+      name: "河野真紀", age: 72, role: "副大臣",
+      theme: "逆機能の解体",
+      pillars: [
+        { label: "逆機能解体", proposals: ["税・社保の逆機能を是正", "低所得層への逆進性排除", "制度の歪み修正"] },
+        { label: "個人単位課税", proposals: ["世帯単位から個人単位へ", "配偶者控除の見直し", "働き方に中立な税制"] },
+        { label: "ジェンダー財政", proposals: ["男性稼ぎ主モデル脱却", "女性の経済的自立支援", "ジェンダー予算分析"] }
+      ],
+      keywords: ["逆機能の解体", "男性稼ぎ主モデルからの脱却", "個人単位課税"]
+    },
+    {
+      name: "三浦英一", age: 53, role: "副大臣",
+      theme: "ベーシックサービス",
+      pillars: [
+        { label: "BS無償化", proposals: ["教育・医療・介護の無償化", "貯蓄ゼロでも不安ゼロ", "消費税19%で財源確保"] },
+        { label: "普遍主義", proposals: ["選別主義から普遍主義へ", "全員が受益者", "中間層の安心"] },
+        { label: "財政哲学", proposals: ["消費税は目的税化", "増収の6割をBS・4割を健全化", "世代間公正"] }
+      ],
+      keywords: ["ベーシックサービス", "貯蓄ゼロでも不安ゼロ", "消費税19%"]
+    }
+  ],
+
+  keisan: [
+    {
+      name: "西園寺智映", age: 63, role: "経済産業大臣",
+      theme: "挑戦するエコシステム",
+      pillars: [
+        { label: "スタートアップ", proposals: ["起業支援エコシステム構築", "失敗許容の文化醸成", "挑戦者を採用する文化"] },
+        { label: "雇用流動化", proposals: ["ジョブ型雇用推進", "フレキシキュリティ", "リスキリング支援"] },
+        { label: "ダイバーシティ", proposals: ["バックグラウンド多様性", "女性起業家支援", "外国人材の活用"] },
+        { label: "産業革新", proposals: ["デジタル産業育成", "グローバル市場展開", "規制サンドボックス"] }
+      ],
+      keywords: ["挑戦した人を採用せよ", "スタートアップ・エコシステム", "バックグラウンドダイバーシティ"]
+    },
+    {
+      name: "中村太一", age: 48, role: "副大臣",
+      theme: "循環と挑戦の経済",
+      pillars: [
+        { label: "STEM女性", proposals: ["STEM女性比率30%目標", "理工系教育ジェンダー格差解消", "ロールモデル創出"] },
+        { label: "循環型経済", proposals: ["サーキュラーエコノミー推進", "リユース・リペア促進", "廃棄物ゼロ"] },
+        { label: "グローバル", proposals: ["海外市場での競争力強化", "越境EC支援", "国際標準化戦略"] }
+      ],
+      keywords: ["STEM女性比率向上", "循環型経済", "グローバル市場での競争力"]
+    },
+    {
+      name: "松田達也", age: 66, role: "副大臣",
+      theme: "コミュニティパワー",
+      pillars: [
+        { label: "地域主導再エネ", proposals: ["地域住民所有の再エネ", "市民風力発電", "エネルギー協同組合"] },
+        { label: "FIT改革", proposals: ["FIT制度の抜本見直し", "小規模分散型優遇", "地域還元メカニズム"] },
+        { label: "脱大企業依存", proposals: ["大企業でなく地域が主役", "エネルギーの民主化", "地産地消エネルギー"] }
+      ],
+      keywords: ["コミュニティパワー", "地域住民所有の再エネ", "大企業でなく地域が主役"]
+    }
+  ],
+
+  kourou: [
+    {
+      name: "加藤克典", age: 67, role: "厚生労働大臣",
+      theme: "健康格差の是正",
+      pillars: [
+        { label: "ガバナンス改革", proposals: ["厚労省のムラ社会解体", "医療行政の透明化", "利益相反の排除"] },
+        { label: "医師偏在是正", proposals: ["地域医療格差の解消", "医師の適正配置", "遠隔医療の推進"] },
+        { label: "情報公開", proposals: ["医療データの公開", "製薬業界との関係透明化", "エビデンスに基づく医療"] },
+        { label: "制度改革", proposals: ["医療提供体制の再編", "予防医療への転換", "かかりつけ医制度強化"] }
+      ],
+      keywords: ["健康格差の是正", "JAGES社会疫学研究", "エビデンスに基づく予防医学"]
+    },
+    {
+      name: "安藤玲子", age: 61, role: "副大臣",
+      theme: "断らない福祉",
+      pillars: [
+        { label: "断らない相談", proposals: ["ワンストップ相談窓口", "制度の狭間を埋める", "全市区町村設置2028年"] },
+        { label: "アウトリーチ", proposals: ["アウトリーチ型支援", "待ちの福祉からの脱却", "孤立者の発見・支援"] },
+        { label: "地域人材育成", proposals: ["ボランティア8000人育成", "民生委員の強化", "地域福祉コーディネーター"] }
+      ],
+      keywords: ["断らない福祉", "制度の狭間を埋める", "アウトリーチ型支援"]
+    },
+    {
+      name: "佐野春樹", age: 42, role: "副大臣",
+      theme: "ブラック企業根絶",
+      pillars: [
+        { label: "ブラック企業対策", proposals: ["ブラック企業の公表制度", "違法残業の厳罰化", "離職率データの義務開示"] },
+        { label: "労基署強化", proposals: ["労基署職員の倍増", "抜き打ち査察の強化", "デジタル労務監視"] },
+        { label: "弱者保護", proposals: ["若者の権利保護", "外国人労働者の権利保護", "技能実習制度の廃止"] }
+      ],
+      keywords: ["ブラック企業根絶", "労基署の抜本強化", "若者・外国人労働者の権利保護"]
+    }
+  ],
+
+  shoushika: [
+    {
+      name: "清水佐紀子", age: 62, role: "少子化担当大臣",
+      theme: "実証データに基づく少子化対策",
+      pillars: [
+        { label: "データ駆動政策", proposals: ["実証データに基づく政策", "出生動向の多角分析", "因果関係の解明"] },
+        { label: "第1子支援", proposals: ["第1子出産年齢が鍵", "20代出産支援型キャリア保障", "若年カップル支援"] },
+        { label: "構造要因", proposals: ["非正規雇用と非婚の相関解消", "住宅コスト軽減", "教育費負担解消"] },
+        { label: "ジェンダー平等", proposals: ["女性就業率向上", "男性育休義務化", "家事育児の平等分担"] }
+      ],
+      keywords: ["実証データに基づく政策", "第1子出産年齢が鍵", "20代出産支援型キャリア保障"]
+    },
+    {
+      name: "原田有紀", age: 61, role: "副大臣",
+      theme: "メリトクラシー批判",
+      pillars: [
+        { label: "ハイパーメリトクラシー批判", proposals: ["曖昧な人間力評価の排除", "能力主義の再検討", "多元的評価制度"] },
+        { label: "職業的レリバンス", proposals: ["教育と仕事の接続強化", "職業教育の地位向上", "実学重視のカリキュラム"] },
+        { label: "若者支援", proposals: ["若者の貧困対策", "奨学金制度改革", "キャリア教育刷新"] }
+      ],
+      keywords: ["ハイパーメリトクラシー批判", "教育の職業的レリバンス", "人間力評価の排除"]
+    },
+    {
+      name: "秋山妙子", age: 51, role: "副大臣",
+      theme: "政策起業家",
+      pillars: [
+        { label: "保育改革", proposals: ["病児保育の全国整備", "小規模保育の制度化", "保育の質向上"] },
+        { label: "男性育休", proposals: ["4週間以上義務化", "企業の育休取得率公表", "パパ・クオータ制"] },
+        { label: "政策起業", proposals: ["民間からの政策提案", "社会起業との連携", "NPOの政策参画"] }
+      ],
+      keywords: ["政策起業家", "病児保育", "男性育休義務化"]
+    }
+  ],
+
+  monka: [
+    {
+      name: "深田薫", age: 75, role: "文部科学大臣",
+      theme: "コモンの再生",
+      pillars: [
+        { label: "コモン再生", proposals: ["教育の公共性回復", "知の共有地の再建", "公教育の再強化"] },
+        { label: "市場原理批判", proposals: ["教育への市場原理排除", "大学の数値評価脱却", "研究の自由確保"] },
+        { label: "教育無償化", proposals: ["幼児から大学院まで無償化", "教育公的支出GDP比5%", "給食の有機化"] },
+        { label: "基礎研究", proposals: ["基礎研究費倍増", "選択と集中の見直し", "若手研究者支援"] }
+      ],
+      keywords: ["コモンの再生", "市場原理導入を批判", "教育全面無償化"]
+    },
+    {
+      name: "沖田彩香", age: 50, role: "副大臣",
+      theme: "学問の自由",
+      pillars: [
+        { label: "学問の自由", proposals: ["学術機関の自律性確保", "政治介入の排除", "日本学術会議改革"] },
+        { label: "文理融合", proposals: ["文理融合型教育", "STEAM教育推進", "総合知の促進"] },
+        { label: "DEI推進", proposals: ["大学のDEI推進", "女性研究者比率向上", "マイノリティ支援"] }
+      ],
+      keywords: ["学問の自由", "学術機関の自律性", "文理融合・DEI推進"]
+    },
+    {
+      name: "吉冨薫", age: 51, role: "副大臣",
+      theme: "子育て罰の解消",
+      pillars: [
+        { label: "子育て罰解消", proposals: ["子育て世帯の経済的不利益解消", "児童手当の拡充", "教育費軽減"] },
+        { label: "教育財政", proposals: ["教育予算の拡充", "学校施設の改善", "教員の処遇改善"] },
+        { label: "ウェルビーイング", proposals: ["子どものウェルビーイング", "給付型奨学金拡充", "学校の居場所機能強化"] }
+      ],
+      keywords: ["子育て罰の解消", "教育財政", "すべての子どものウェルビーイング"]
+    }
+  ],
+
+  kankyou: [
+    {
+      name: "若松竹之助", age: 80, role: "環境大臣",
+      theme: "ESG金融で脱炭素",
+      pillars: [
+        { label: "ESG金融", proposals: ["金融の力で脱炭素", "グリーンボンド推進", "ダイベストメント促進"] },
+        { label: "環境と経済の両立", proposals: ["環境コストの内部化", "カーボンプライシング", "グリーン産業育成"] },
+        { label: "金融規制", proposals: ["TCFD義務化", "座礁資産リスク評価", "サステナブル投資促進"] },
+        { label: "脱炭素戦略", proposals: ["2050年カーボンニュートラル", "GHG2035年70%削減", "再エネ最優先"] }
+      ],
+      keywords: ["金融の力で脱炭素", "ESG金融", "環境と経済の両立"]
+    },
+    {
+      name: "鶴見泉", age: 75, role: "副大臣",
+      theme: "生物多様性保全",
+      pillars: [
+        { label: "生物多様性", proposals: ["30by30目標の達成", "保護区の拡大", "生態系サービスの評価"] },
+        { label: "里山再生", proposals: ["里山の保全と活用", "伝統的土地利用の復活", "人と自然の共生"] },
+        { label: "外来種対策", proposals: ["侵略的外来種の防除", "生態系の回復", "モニタリング体制強化"] }
+      ],
+      keywords: ["生物多様性保全", "里山再生", "30by30目標"]
+    },
+    {
+      name: "朝倉寿一", age: 66, role: "副大臣",
+      theme: "グリーンニューディール",
+      pillars: [
+        { label: "GND", proposals: ["グリーンニューディール政策", "大規模公共投資", "グリーン雇用創出"] },
+        { label: "気候正義", proposals: ["気候変動の公正な対策", "途上国支援", "世代間正義"] },
+        { label: "脱原発×温暖化", proposals: ["脱原発と温暖化防止の両立", "再エネ最大限導入", "炭素税の導入"] }
+      ],
+      keywords: ["グリーンニューディール", "気候正義", "脱原発と温暖化防止の両立"]
+    }
+  ],
+
+  nousui: [
+    {
+      name: "田中宣明", age: 67, role: "農林水産大臣",
+      theme: "食料安全保障の死守",
+      pillars: [
+        { label: "食料危機警鐘", proposals: ["実質自給率10%の危機告発", "食料安全保障の国防同格化", "輸入依存からの脱却"] },
+        { label: "自給率向上", proposals: ["食料自給率50%目標", "国産農産物の支援", "ローカルフード法制定"] },
+        { label: "農家支援", proposals: ["農家への直接支払い", "新規就農者年間3万人", "農業所得の安定化"] },
+        { label: "食の安全", proposals: ["有機農業2035年10%", "給食有機米2030年100%", "農薬規制強化"] }
+      ],
+      keywords: ["世界で最初に飢えるのは日本", "実質自給率10%の危機", "ローカルフード法"]
+    },
+    {
+      name: "桜庭佳乃", age: 46, role: "副大臣",
+      theme: "アグロエコロジー",
+      pillars: [
+        { label: "アグロエコロジー", proposals: ["アグロエコロジー政策推進", "持続可能な農業転換", "生態系と調和した農法"] },
+        { label: "家族農業", proposals: ["家族農業支援強化", "小規模農家の経営安定", "国連家族農業の10年推進"] },
+        { label: "国際食料安全保障", proposals: ["国際食料安全保障の確立", "FAOとの連携強化", "食料主権の確保"] }
+      ],
+      keywords: ["アグロエコロジー", "家族農業", "国際食料安全保障"]
+    },
+    {
+      name: "永島康之", age: 63, role: "副大臣",
+      theme: "フードシステム・食品安全",
+      pillars: [
+        { label: "食品安全制度", proposals: ["食品安全の科学的設計", "リスク評価の透明化", "食品安全基準の国際整合"] },
+        { label: "フードシステム改革", proposals: ["フードシステムの持続可能化", "食料政策審議会改革", "サプライチェーン強靭化"] },
+        { label: "先端技術と安全", proposals: ["先端技術と食の安全の両立", "フードテック規制の整備", "消費者への情報開示"] }
+      ],
+      keywords: ["フードシステム論", "食品安全", "科学的設計"]
+    }
+  ],
+
+  kokkou: [
+    {
+      name: "坂本理明", age: 80, role: "国土交通大臣",
+      theme: "地域社会圏",
+      pillars: [
+        { label: "地域社会圏", proposals: ["500-1000人の自治単位", "コモンズの再構築", "小さな自治体の活性化"] },
+        { label: "共有空間", proposals: ["共有空間中心の集合住宅", "パブリック・コモンズ設計", "コミュニティスペース拡充"] },
+        { label: "巨大開発転換", proposals: ["巨大開発からの転換", "住民主体のまちづくり", "コンパクトシティ"] },
+        { label: "住宅政策", proposals: ["住宅セーフティネット", "公営住宅の拡充", "DV被害者支援住宅"] }
+      ],
+      keywords: ["地域社会圏", "共有空間中心の集合住宅", "巨大開発からの転換"]
+    },
+    {
+      name: "川崎涼介", age: 52, role: "副大臣",
+      theme: "コミュニティデザイン",
+      pillars: [
+        { label: "住民参加", proposals: ["住民参加型まちづくり", "ワークショップ手法", "合意形成プロセス"] },
+        { label: "縮充", proposals: ["縮みながら充実する", "人口減少適応型計画", "機能の集約と充実"] },
+        { label: "福祉×デザイン", proposals: ["福祉がコミュニティデザインの肝", "居場所づくり", "多世代交流空間"] }
+      ],
+      keywords: ["コミュニティデザイン", "縮充", "福祉がコミュニティデザインの肝"]
+    },
+    {
+      name: "姉崎和世", age: 69, role: "副大臣",
+      theme: "公園のような建築",
+      pillars: [
+        { label: "透明性", proposals: ["透明性と開放性の建築", "内外の境界を溶かす", "ガラス建築の思想"] },
+        { label: "多様な使い方", proposals: ["多様な人が思い思いに使える空間", "用途の未規定性", "自由な動線設計"] },
+        { label: "公共建築", proposals: ["公共建築の質向上", "アートと建築の融合", "景観との調和"] }
+      ],
+      keywords: ["公園のような建築", "透明性と開放性", "多様な人が思い思いに使える空間"]
+    }
+  ],
+
+  digital: [
+    {
+      name: "青木光宏", age: 58, role: "デジタル大臣",
+      theme: "尊厳のためのデジタル",
+      pillars: [
+        { label: "個人データ保護", proposals: ["GDPR水準の法整備", "個人情報保護の強化", "データ最小化原則"] },
+        { label: "尊厳優先", proposals: ["効率より尊厳を優先", "人間中心のデジタル設計", "アルゴリズム透明性"] },
+        { label: "プロファイリング規制", proposals: ["プロファイリングの厳格規制", "AIバイアス評価義務化", "自動決定への異議申立権"] },
+        { label: "監視規制", proposals: ["デジタル監視の制限", "顔認識技術の規制", "通信の秘密の保護"] }
+      ],
+      keywords: ["効率より尊厳", "個人データ保護", "プロファイリング規制"]
+    },
+    {
+      name: "マルク・デュラン", age: 44, role: "副大臣",
+      theme: "ウェルビーイングの設計",
+      pillars: [
+        { label: "ウェルビーイング", proposals: ["私たちのウェルビーイング指標", "デジタルWB設計", "テクノロジーの人間化"] },
+        { label: "共創の媒介", proposals: ["テクノロジーは共創の媒介", "オープンソース推進", "デジタルコモンズ"] },
+        { label: "文化とテック", proposals: ["発酵的デザイン思想", "多文化共生テック", "言語多様性のデジタル支援"] }
+      ],
+      keywords: ["私たちのウェルビーイング", "共創の媒介", "ウェルビーイングの設計"]
+    },
+    {
+      name: "山岸杏奈", age: 36, role: "副大臣",
+      theme: "シェアの時代",
+      pillars: [
+        { label: "シェアエコ", proposals: ["シェアリングエコノミー推進", "遊休資産の活用", "シェアの法的基盤整備"] },
+        { label: "孤独解消", proposals: ["孤独からの解放", "拡張家族の概念", "デジタルつながり支援"] },
+        { label: "多拠点居住", proposals: ["多拠点居住の推進", "関係人口の創出", "ワーケーション支援"] }
+      ],
+      keywords: ["シェアリングエコノミー", "孤独からの解放", "拡張家族・多拠点居住"]
+    }
+  ],
+
+  saigai: [
+    {
+      name: "室田益光", age: 81, role: "災害担当大臣",
+      theme: "命中心の防災",
+      pillars: [
+        { label: "命中心", proposals: ["命を最優先する防災", "避難所の30年来の改善", "災害弱者の保護"] },
+        { label: "ソフト防災", proposals: ["ハード偏重からソフトへ", "防災教育の充実", "コミュニティ防災力強化"] },
+        { label: "避難所改革", proposals: ["スフィア基準の法定化", "プライバシー確保", "感染症対策の標準化"] },
+        { label: "事前防災", proposals: ["事前復興計画の策定", "災害リスク評価の高度化", "気候変動適応型防災"] }
+      ],
+      keywords: ["命中心の防災", "避難所は30年間改善されていない", "ハード偏重からソフトへ"]
+    },
+    {
+      name: "白石美恵", age: 63, role: "副大臣",
+      theme: "スフィア基準の実現",
+      pillars: [
+        { label: "スフィア基準", proposals: ["国際人道基準の国内導入", "避難所の最低基準法定化", "食事・衛生基準の確立"] },
+        { label: "災害看護", proposals: ["災害看護体制の強化", "DMAT拡充", "メンタルヘルスケア"] },
+        { label: "データ活用", proposals: ["データに基づく避難所改善", "被災者情報システム", "リアルタイム被害把握"] }
+      ],
+      keywords: ["スフィア基準", "災害看護", "データに基づく避難所改善"]
+    },
+    {
+      name: "菅原拓也", age: 43, role: "副大臣",
+      theme: "生活再建型復興",
+      pillars: [
+        { label: "災害ケースマネジメント", proposals: ["被災者個別支援計画", "伴走型支援", "制度の狭間を埋める復興"] },
+        { label: "生活再建", proposals: ["土建国家型から生活再建型へ", "住まいの確保最優先", "生業再建支援"] },
+        { label: "地域復興", proposals: ["コミュニティ主導の復興", "被災者の声を復興計画に", "長期的復興ビジョン"] }
+      ],
+      keywords: ["災害ケースマネジメント", "被災者個別支援", "土建国家型復興から生活再建型復興へ"]
+    }
+  ],
+
+  gaimu: [
+    {
+      name: "大島実郎", age: 78, role: "外務大臣",
+      theme: "自律外交",
+      pillars: [
+        { label: "親米入亜", proposals: ["対米従属でも反米でもない", "アジアとの関係深化", "自律的外交路線"] },
+        { label: "エネルギー安保", proposals: ["エネルギー安全保障戦略", "中東依存度の低減", "再エネによる自立"] },
+        { label: "全体知", proposals: ["全体知に基づく国家戦略", "分野横断的国際戦略", "地政学的リアリズム"] },
+        { label: "多国間主義", proposals: ["国連中心の秩序支持", "多国間協調", "東アジア共同体構想"] }
+      ],
+      keywords: ["親米入亜", "エネルギー安全保障", "全体知に基づく国家戦略"]
+    },
+    {
+      name: "鶴田佐代", age: 48, role: "副大臣",
+      theme: "外交の民主化",
+      pillars: [
+        { label: "対米自律", proposals: ["自発的対米従属からの脱却", "主体的な日米関係", "不平等地位協定改定"] },
+        { label: "外交民主化", proposals: ["外交の民主化", "市民社会の外交参加", "情報公開の徹底"] },
+        { label: "ロビイング", proposals: ["米議会への直接ロビイング", "トラック2外交の活性化", "在外公館の市民連携"] }
+      ],
+      keywords: ["自発的対米従属からの脱却", "外交の民主化", "米議会への直接ロビイング"]
+    },
+    {
+      name: "瀬川留美", age: 48, role: "副大臣",
+      theme: "平和構築",
+      pillars: [
+        { label: "紛争予防", proposals: ["紛争予防メカニズムの構築", "早期警戒システム", "予防外交の強化"] },
+        { label: "DDR", proposals: ["武装解除・動員解除・社会復帰", "元戦闘員の社会統合", "平和構築の知見輸出"] },
+        { label: "女性平和構築", proposals: ["女性平和構築者の育成", "WPS決議の実践", "ジェンダーと平和"] }
+      ],
+      keywords: ["平和はコツコツつくるもの", "DDR", "女性平和構築者の育成"]
+    }
+  ],
+
+  bouei: [
+    {
+      name: "柏原協治", age: 79, role: "防衛大臣",
+      theme: "専守防衛・外交最優先",
+      pillars: [
+        { label: "専守防衛", proposals: ["専守防衛の堅持", "敵基地攻撃能力の放棄", "防衛費GDP2%撤回"] },
+        { label: "外交最優先", proposals: ["外交による安全保障", "対話と信頼醸成", "軍事的緊張の緩和"] },
+        { label: "安保実務", proposals: ["4内閣での実務経験", "際限のない軍拡への警鐘", "FMS契約の見直し"] },
+        { label: "文民統制", proposals: ["文民統制の徹底", "防衛政策の民主的統制", "国会の関与強化"] }
+      ],
+      keywords: ["際限のない撃ち合いへの警鐘", "専守防衛", "外交最優先"]
+    },
+    {
+      name: "佐藤洋子", age: 65, role: "副大臣",
+      theme: "歴史の教訓",
+      pillars: [
+        { label: "歴史の教訓", proposals: ["戦争選択の実証的解明", "歴史教育の充実", "過去から学ぶ政策判断"] },
+        { label: "文民統制", proposals: ["文民統制の強化", "軍事と政治の分離", "歴史的検証の制度化"] },
+        { label: "学問の自由", proposals: ["学問の自由の擁護", "軍学共同研究への慎重姿勢", "研究の独立性確保"] }
+      ],
+      keywords: ["なぜ日本人は戦争を選んだか", "歴史の教訓", "文民統制"]
+    },
+    {
+      name: "小泉悠馬", age: 43, role: "副大臣",
+      theme: "安全保障の構想",
+      pillars: [
+        { label: "ロシア軍事分析", proposals: ["ロシア軍事戦略の分析", "ウクライナ戦争の教訓", "国際安全保障環境の評価"] },
+        { label: "サイバー安全保障", proposals: ["サイバー空間の安全保障", "情報戦への対処", "ハイブリッド戦争への備え"] },
+        { label: "安全保障構想", proposals: ["安全保障の積極的構想", "防衛力の合理的整備", "国際共同研究ネットワーク"] }
+      ],
+      keywords: ["ロシア軍事戦略の第一人者", "ウクライナ戦争分析", "安全保障を構想する"]
+    }
+  ],
+
+  keizaisaisei: [
+    {
+      name: "兼子勝利", age: 73, role: "内閣特命大臣（経済再生担当）",
+      theme: "構造転換による経済再生",
+      pillars: [
+        { label: "脱原発経済", proposals: ["脱原発による経済再生", "再エネ産業の育成", "エネルギー構造転換"] },
+        { label: "反新自由主義", proposals: ["新自由主義からの脱却", "給付付き税額控除制度", "低所得者支援の実効化"] },
+        { label: "農政改革", proposals: ["食料安全保障の強化", "農業基本法の抜本見直し", "地方経済再生"] }
+      ],
+      keywords: ["構造を変えなければ何も変わらない", "脱原発経済再生", "フェイクファシズムへの警鐘"]
+    }
+  ],
+
+  soumu: [
+    {
+      name: "早川善平", age: 70, role: "総務大臣",
+      theme: "制度で公正さを担保",
+      pillars: [
+        { label: "制度的公正", proposals: ["面従腹背ではなく制度で公正", "行政の中立性確保", "公文書管理改革"] },
+        { label: "教育の権利", proposals: ["夜間中学の全国整備", "教育を受ける権利の保障", "不登校対策の充実"] },
+        { label: "行政改革", proposals: ["省庁の透明性向上", "天下り規制", "公務員の政治的中立"] },
+        { label: "地方自治", proposals: ["地方自治体の自律性", "地方分権の推進", "住民自治の強化"] }
+      ],
+      keywords: ["制度で公正さを担保", "加計問題", "夜間中学・教育の権利"]
+    },
+    {
+      name: "赤野慶一", age: 54, role: "副大臣",
+      theme: "多様な働き方",
+      pillars: [
+        { label: "選択的夫婦別姓", proposals: ["訴訟原告としての推進", "今国会での法制化", "個人の尊厳と婚姻"] },
+        { label: "100人100通り", proposals: ["100人100通りの働き方", "副業・複業の推進", "リモートワーク制度化"] },
+        { label: "行政DX", proposals: ["行政DXの推進", "ペーパーレス化", "行政手続のオンライン化"] }
+      ],
+      keywords: ["選択的夫婦別姓訴訟原告", "100人100通りの働き方", "行政DX"]
+    },
+    {
+      name: "森香織", age: 62, role: "副大臣",
+      theme: "メディアの独立性",
+      pillars: [
+        { label: "メディア独立", proposals: ["メディアの独立性確保", "報道の自由ランキング向上", "放送法の改正"] },
+        { label: "公共放送", proposals: ["公共放送の再定義", "NHK改革", "受信料制度の見直し"] },
+        { label: "アテンションエコノミー批判", proposals: ["アテンションエコノミー批判", "フェイクニュース対策", "メディアリテラシー教育"] },
+        { label: "ジェンダーとメディア", proposals: ["メディアのジェンダー平等", "女性ジャーナリスト支援", "表現の多様性"] }
+      ],
+      keywords: ["メディアの独立性", "公共放送の再定義", "アテンションエコノミー批判"]
+    }
+  ]
+};
+
+// ============================================================
+// Ministry color palette
+// ============================================================
+const ministryColors = {
+  kantei: { main: '#ffd232', sub: '#e6b800' },
+  zaimu: { main: '#4cb963', sub: '#3a9e4f' },
+  keisan: { main: '#5ba3d9', sub: '#4288bb' },
+  kourou: { main: '#e07a5f', sub: '#c4603f' },
+  shoushika: { main: '#f2a7c3', sub: '#d88aa6' },
+  monka: { main: '#9b8ec4', sub: '#7d70a6' },
+  kankyou: { main: '#2d6b3f', sub: '#1f4d2d' },
+  nousui: { main: '#8db36b', sub: '#6f9a4e' },
+  kokkou: { main: '#d4a574', sub: '#b88a5a' },
+  digital: { main: '#6ec5d0', sub: '#4fadb8' },
+  saigai: { main: '#e8574a', sub: '#c73d30' },
+  gaimu: { main: '#6a89b7', sub: '#4d6e9e' },
+  bouei: { main: '#8a8a8a', sub: '#6e6e6e' },
+  keizaisaisei: { main: '#e6a832', sub: '#c89020' },
+  soumu: { main: '#c4a35a', sub: '#a88b3e' }
+};
+
+// ============================================================
+// SVG Mindmap Generator
+// ============================================================
+function generateMindmapSVG(minister, colors) {
+  const cx = 210, cy = 190;
+  const r1 = 100; // pillar radius
+  const r2 = 170; // leaf radius
+  const pillars = minister.pillars;
+  const pCount = pillars.length;
+
+  const tc = textOn(colors.main);
+  let paths = '';
+  let nodes = '';
+
+  // Central node
+  nodes += `
+    <g class="node-center">
+      <circle cx="${cx}" cy="${cy}" r="36" fill="${colors.main}" opacity="0.9"/>
+      <text x="${cx}" y="${cy - 6}" text-anchor="middle" fill="${tc}" font-size="12" font-weight="bold">${minister.name}</text>
+      <text x="${cx}" y="${cy + 10}" text-anchor="middle" fill="${tc}" font-size="9" opacity="0.8">${minister.role}</text>
+    </g>`;
+
+  pillars.forEach((pillar, i) => {
+    const angle = (2 * Math.PI * i / pCount) - Math.PI / 2;
+    const px = cx + r1 * Math.cos(angle);
+    const py = cy + r1 * Math.sin(angle);
+
+    // Main branch (curved)
+    const cpx = cx + (r1 * 0.5) * Math.cos(angle + 0.15);
+    const cpy = cy + (r1 * 0.5) * Math.sin(angle + 0.15);
+    paths += `<path class="branch branch-main" d="M${cx},${cy} Q${cpx},${cpy} ${px},${py}" stroke="${colors.main}"/>`;
+
+    // Pillar node
+    const labelLines = splitText(pillar.label, 6);
+    let labelSVG = labelLines.map((line, li) =>
+      `<text x="${px}" y="${py + (li - (labelLines.length-1)/2) * 12}" text-anchor="middle" font-size="10">${line}</text>`
+    ).join('');
+
+    nodes += `
+      <g class="node-pillar" data-tooltip="${pillar.label}: ${pillar.proposals.join(' / ')}">
+        <circle cx="${px}" cy="${py}" r="25" fill="${colors.main}" opacity="0.20" stroke="${colors.sub}" stroke-width="1.5"/>
+        ${labelSVG}
+      </g>`;
+
+    // Leaf nodes
+    const proposals = pillar.proposals;
+    const leafSpread = Math.PI * 0.35;
+    proposals.forEach((prop, j) => {
+      const leafAngle = angle - leafSpread/2 + (leafSpread * j / Math.max(proposals.length - 1, 1));
+      const lx = cx + r2 * Math.cos(leafAngle);
+      const ly = cy + r2 * Math.sin(leafAngle);
+
+      const lcpx = px + (r2 - r1) * 0.4 * Math.cos(leafAngle + 0.1);
+      const lcpy = py + (r2 - r1) * 0.4 * Math.sin(leafAngle + 0.1);
+      paths += `<path class="branch branch-sub" d="M${px},${py} Q${lcpx},${lcpy} ${lx},${ly}" stroke="${colors.main}" opacity="0.4"/>`;
+
+      const truncProp = prop.length > 12 ? prop.substring(0, 11) + '..' : prop;
+      const tw = Math.max(truncProp.length * 8, 60);
+      nodes += `
+        <g class="node-leaf" data-tooltip="${prop}">
+          <rect x="${lx - tw/2}" y="${ly - 10}" width="${tw}" height="20" fill="${colors.sub}" opacity="0.3"/>
+          <text x="${lx}" y="${ly + 4}" text-anchor="middle" font-size="8.5">${truncProp}</text>
+        </g>`;
+    });
+  });
+
+  return `<svg class="mindmap" viewBox="0 0 420 380" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="glow-${minister.name.replace(/\s/g,'')}" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="${colors.main}" stop-opacity="0.1"/>
+        <stop offset="100%" stop-color="${colors.main}" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <circle cx="${cx}" cy="${cy}" r="180" fill="url(#glow-${minister.name.replace(/\s/g,'')})" />
+    ${paths}
+    ${nodes}
+  </svg>`;
+}
+
+function splitText(text, maxLen) {
+  if (text.length <= maxLen) return [text];
+  const mid = Math.ceil(text.length / 2);
+  return [text.substring(0, mid), text.substring(mid)];
+}
+
+// 主色の明度に応じて中央ノードの文字色を白/黒に自動切替（明るいテーマ対応）
+function textOn(hex) {
+  const c = hex.replace('#','');
+  const r = parseInt(c.substr(0,2),16), g = parseInt(c.substr(2,2),16), b = parseInt(c.substr(4,2),16);
+  return (0.299*r + 0.587*g + 0.114*b) > 150 ? '#1a1a1a' : '#ffffff';
+}
+
+// ============================================================
+// Render cards
+// ============================================================
+function renderCards() {
+  Object.entries(ministersData).forEach(([ministryId, ministers]) => {
+    const section = document.getElementById(ministryId);
+    if (!section) return;
+    const grid = section.querySelector('.cards-grid');
+    const colors = ministryColors[ministryId];
+
+    ministers.forEach(m => {
+      const isMinister = m.role.includes('大臣') && !m.role.includes('副');
+      const card = document.createElement('div');
+      card.className = `mindmap-card ${isMinister ? 'role-minister' : 'role-vice'}`;
+
+      const svg = generateMindmapSVG(m, colors);
+      const keywords = m.keywords.map(k => `<span class="keyword-tag">${k}</span>`).join('');
+
+      card.innerHTML = `
+        <span class="role-badge">${m.role}${m.age ? ' (' + m.age + '歳)' : ''}</span>
+        <div style="text-align:center;margin-bottom:4px;font-size:11px;color:var(--text-dim)">${m.theme}</div>
+        ${svg}
+        <div class="keyword-bar">${keywords}</div>
+      `;
+      grid.appendChild(card);
+    });
+  });
+}
+
+// ============================================================
+// Tooltip
+// ============================================================
+function initTooltip() {
+  const tooltip = document.getElementById('tooltip');
+  document.addEventListener('mouseover', e => {
+    const el = e.target.closest('[data-tooltip]');
+    if (el) {
+      tooltip.textContent = el.getAttribute('data-tooltip');
+      tooltip.style.display = 'block';
+    }
+  });
+  document.addEventListener('mousemove', e => {
+    if (tooltip.style.display === 'block') {
+      tooltip.style.left = (e.clientX + 12) + 'px';
+      tooltip.style.top = (e.clientY + 12) + 'px';
+    }
+  });
+  document.addEventListener('mouseout', e => {
+    const el = e.target.closest('[data-tooltip]');
+    if (el) tooltip.style.display = 'none';
+  });
+}
+
+// ============================================================
+// Init
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+  renderCards();
+  initTooltip();
+});
+</script>
+</body>
+</html>
